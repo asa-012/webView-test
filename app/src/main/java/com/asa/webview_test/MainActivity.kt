@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        title = "pdfテスト"
 
         button.setOnClickListener {
             val url = "https://flex-crm.com/demofeb18jdu/files/document/dummy.pdf"
