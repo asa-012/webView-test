@@ -6,11 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
-import android.webkit.WebView
+import android.webkit.CookieManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 
@@ -25,8 +25,9 @@ class MainActivity : AppCompatActivity() {
             val url = "https://flex-crm.com/demofeb18jdu/files/document/dummy.pdf"
             val urlSp = url.split("/")
             val pdfName = urlSp[urlSp.size - 1]
-            val file = File(Environment.DIRECTORY_DOWNLOADS,pdfName)
+            val file = File(Environment.DIRECTORY_DOWNLOADS, pdfName)
 
+            val cookies: String = CookieManager.getInstance().getCookie(url)
             val request = DownloadManager.Request(
                     Uri.parse("https://flex-crm.com/demofeb18jdu/files/document/dummy.pdf"))
                     .setTitle(pdfName + "のダウンロード")
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
                     .setAllowedOverMetered(true)
                     .setDestinationUri(Uri.fromFile(file))
                     .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, pdfName)
+                    .addRequestHeader("cookie",cookies)
 
             //メディアスキャンを許可する(ギャラリーアプリとかで参照可能になる)
             request.allowScanningByMediaScanner()
@@ -74,7 +76,7 @@ class MainActivity : AppCompatActivity() {
             val intentFilter = IntentFilter()
             intentFilter.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
             intentFilter.addAction(DownloadManager.ACTION_NOTIFICATION_CLICKED)
-            registerReceiver(onDownloadComplete,intentFilter)
+            registerReceiver(onDownloadComplete, intentFilter)
         }
 
         button2.setOnClickListener {
@@ -82,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 //            val url = "https://flex-crm.com/demofeb18jdu/files/document/dummy.pdf"
             val urlSp = url.split("/")
             val pdfName = urlSp[urlSp.size - 1]
-            val file = File(Environment.DIRECTORY_DOWNLOADS,pdfName)
+            val file = File(Environment.DIRECTORY_DOWNLOADS, pdfName)
 
             val request = DownloadManager.Request(
                     Uri.parse("https://atmiyauni.ac.in/wp-content/uploads/2020/04/AU-Brochure-update-March-2020.pdf"))
@@ -132,7 +134,7 @@ class MainActivity : AppCompatActivity() {
             val intentFilter = IntentFilter()
             intentFilter.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
             intentFilter.addAction(DownloadManager.ACTION_NOTIFICATION_CLICKED)
-            registerReceiver(onDownloadComplete,intentFilter)
+            registerReceiver(onDownloadComplete, intentFilter)
         }
 
     }
